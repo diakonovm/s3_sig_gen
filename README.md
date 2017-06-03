@@ -1,38 +1,48 @@
 # S3SigGen
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/s3_sig_gen`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
-
-Add this line to your application's Gemfile:
 
 ```ruby
 gem 's3_sig_gen'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install s3_sig_gen
-
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+s3_sig_gen = S3SigGen::Generator.new do |g|
+  g.aws_access_key_id = ENV["AWS_ACCESS_KEY_ID"]
+  g.aws_secret_access_key = ENV["AWS_SECRET_ACCESS_KEY"]
+  g.region = "us-east-1"
+  g.bucket = "asdf"
+  g.key = "asdf"
+  g.acl = "public-read"
+end
+@signature = s3_sig_gen.signature
+```
 
-## Development
+``` html
+<!-- views/photos/new.html.erb -->
+<form action="https://asdf.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="key" value="<%= @signature["key"] %>" />
+  <input type="hidden" name="acl" value="<%= @signature["acl"] %>" />
+  <!-- <input type="hidden" name="x-amz-server-side-encryption" value="AES256" />  -->
+  <input type="hidden" name="success_action_status" value="<%= @signature["success_action_status"] %>" />
+  <input type="hidden" name="X-Amz-Credential" value="<%= @signature["x-amz-credential"] %>" />
+  <input type="hidden" name="X-Amz-Algorithm" value="<%= @signature["x-amz-algorithm"] %>" />
+  <input type="hidden" name="X-Amz-Date" value="<%= @signature["x-amz-date"] %>" />
+  <input type="hidden" name="Policy" value="<%= @signature["policy"] %>" />
+  <input type="hidden" name="X-Amz-Signature" value="<%= @signature["x-amz-signature"] %>" />
+  File:
+  <input type="file" name="file" /> <br />
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+  <input type="submit" name="submit" value="upload"/>
+</form>
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/s3_sig_gen.
+Bug reports and pull requests are welcome on GitHub at https://github.com/diakonovm/s3_sig_gen.
 
 ## License
 

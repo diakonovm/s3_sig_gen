@@ -9,14 +9,14 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Michael Diakonov"]
   spec.email         = ["diakonov.m@gmail.com"]
   spec.homepage      = ""
-  spec.summary       = %q{}
+  spec.summary       = %q{AWS Version 4 signatures for authenticated HTTP POST uploads to AWS S3}
   spec.description   = %q{}
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
-  
+
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

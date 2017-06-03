@@ -7,7 +7,7 @@ Authenticate requests for browser based direct uploads to AWS S3.
 ## Installation
 
 ```ruby
-gem 's3_sig_gen'
+gem 's3_sig_gen', :git => 'git@github.com:diakonovm/s3_sig_gen.git'
 ```
 
 ## Usage

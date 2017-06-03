@@ -1,5 +1,8 @@
 # S3SigGen
 
+Authenticate requests for browser based direct uploads to AWS S3.
+
+[Direct upload to AWS S3](http://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-authentication-HTTPPOST.html)
 
 ## Installation
 
@@ -23,6 +26,7 @@ end
 
 ``` html
 <!-- views/photos/new.html.erb -->
+
 <form action="https://asdf.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
   <input type="hidden" name="key" value="<%= @signature["key"] %>" />
   <input type="hidden" name="acl" value="<%= @signature["acl"] %>" />
@@ -35,7 +39,6 @@ end
   <input type="hidden" name="X-Amz-Signature" value="<%= @signature["x-amz-signature"] %>" />
   File:
   <input type="file" name="file" /> <br />
-
   <input type="submit" name="submit" value="upload"/>
 </form>
 ```

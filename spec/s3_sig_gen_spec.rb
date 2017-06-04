@@ -66,20 +66,3 @@ RSpec.describe S3SigGen do
   end
 
 end
-
-<form action="https://asdf.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="key" value="<%= @signature["key"] %>" />
-  <input type="hidden" name="acl" value="<%= @signature["acl"] %>" />
-  <!-- <input type="hidden" name="x-amz-server-side-encryption" value="AES256" />  -->
-  <input type="hidden" name="success_action_status" value="<%= @signature["success_action_status"] %>" />
-  <input type="hidden" name="X-Amz-Credential" value="<%= @signature["x-amz-credential"] %>" />
-  <input type="hidden" name="X-Amz-Algorithm" value="<%= @signature["x-amz-algorithm"] %>" />
-  <input type="hidden" name="X-Amz-Date" value="<%= @signature["x-amz-date"] %>" />
-  <input type="hidden" name="Policy" value="<%= @signature["policy"] %>" />
-  <input type="hidden" name="X-Amz-Signature" value="<%= @signature["x-amz-signature"] %>" />
-  File:
-  <input type="file" name="file" /> <br />
-  <!-- The elements after this will be ignored -->
-
-  <input type="submit" name="submit" value="upload"/>
-</form>

@@ -1,0 +1,13 @@
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - "**/*.gemspec"
+
+Metrics/LineLength:
+  Max: 145
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/IndentationConsistency:
+  EnforcedStyle: rails

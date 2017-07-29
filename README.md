@@ -17,10 +17,24 @@ s3_sig_gen = S3SigGen::Generator.new do |g|
   g.aws_access_key_id = ENV["AWS_ACCESS_KEY_ID"]
   g.aws_secret_access_key = ENV["AWS_SECRET_ACCESS_KEY"]
   g.region = "us-east-1"
-  g.bucket = "asdf"
-  g.key = "asdf"
+  g.bucket = "sample-bucket"
+  g.key = "sample_key"
   g.acl = "public-read"
 end
+@signature = s3_sig_gen.signature
+```
+or
+
+```ruby
+options = {
+  aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+  aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+  region: 'us-east-1',
+  bucket: 'sample-bucket',
+  key: 'sample_key',
+  acl: 'public-read'
+}
+s3_sig_gen = S3SigGen::Generator.new(options)
 @signature = s3_sig_gen.signature
 ```
 

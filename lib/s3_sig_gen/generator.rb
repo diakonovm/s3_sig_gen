@@ -6,7 +6,7 @@ require 'time'
 
 module S3SigGen
   class Generator
-    attr_accessor :aws_access_key_id, :aws_secret_access_key, :region, :bucket, :key, :acl
+    attr_accessor :aws_access_key_id, :aws_secret_access_key, :region, :bucket, :key, :acl, :server_side_encryption
 
     def initialize options = {}
       @aws_access_key_id = options[:aws_access_key_id]
@@ -15,6 +15,7 @@ module S3SigGen
       @bucket = options[:bucket]
       @key = options[:key]
       @acl = options[:acl] || 'public-read'
+      @server_side_encryption = options[:server_side_encryption] || false
 
       yield self if block_given?
     end
@@ -36,6 +37,7 @@ module S3SigGen
         unencoded_policy['conditions'] << { 'x-amz-algorithm': 'AWS4-HMAC-SHA256' }
         unencoded_policy['conditions'] << { 'x-amz-credential':  x_amz_credential }
         unencoded_policy['conditions'] << { 'x-amz-date':  x_amz_date }
+        unencoded_policy['conditions'] << { 'x-amz-server-side-encryption': 'AES256' } if @server_side_encryption
 
         base64_encoded_policy = base64_encode unencoded_policy.to_json
         signed_policy = sign_policy base64_encoded_policy
@@ -48,6 +50,7 @@ module S3SigGen
         signature['x-amz-algorithm'] = unencoded_policy['conditions'][4]['x-amz-algorithm'.to_sym]
         signature['x-amz-credential'] = unencoded_policy['conditions'][5]['x-amz-credential'.to_sym]
         signature['x-amz-date'] = unencoded_policy['conditions'][6]['x-amz-date'.to_sym]
+        signature['x-amz-server-side-encryption'] = unencoded_policy['conditions'][7]['x-amz-server-side-encryption'.to_sym] if @server_side_encryption
         signature['x-amz-signature'] = signed_policy
         signature
       end
